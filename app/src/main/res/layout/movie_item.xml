@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/item_padding"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="@dimen/item_padding">
 
     <ImageView
         android:id="@+id/movie_cover_image_view"
@@ -29,7 +29,7 @@
                 android:id="@+id/movie_name_eng_text_view"
                 style="@style/TextView.Secondary"
                 android:layout_marginStart="@dimen/text_small_margin"
-                android:transitionName="@string/movie_name_eng_transition_name"/>
+                android:transitionName="@string/movie_name_eng_transition_name" />
         </LinearLayout>
 
         <LinearLayout
@@ -42,7 +42,7 @@
                 android:layout_marginStart="@dimen/text_small_margin"
                 android:ellipsize="end"
                 android:lines="1"
-                android:transitionName="@string/movie_premiere_transition_name"/>
+                android:transitionName="@string/movie_premiere_transition_name" />
         </LinearLayout>
 
         <LinearLayout

@@ -45,38 +45,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/movie_name_eng_text_view"
+                    style="@style/TextView.Primary.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_small_margin"
+                    android:transitionName="@string/movie_name_eng_transition_name" />
+
+                <TextView
+                    android:id="@+id/movie_premiere_date_text_view"
+                    style="@style/TextView.Secondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_small_margin"
+                    android:transitionName="@string/movie_premiere_transition_name" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/movie_name_eng_text_view"
-                style="@style/TextView.Primary.Bold"
-                android:layout_width="wrap_content"
+                android:id="@+id/movie_description_text_view"
+                style="@style/TextView.Primary"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_small_margin"
-                android:transitionName="@string/movie_name_eng_transition_name"/>
-
-            <TextView
-                android:id="@+id/movie_premiere_date_text_view"
-                style="@style/TextView.Secondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_small_margin"
-                android:transitionName="@string/movie_premiere_transition_name"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/movie_description_text_view"
-            style="@style/TextView.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/text_small_margin"
-            android:transitionName="@string/movie_description_transition_name" />
+                android:layout_marginStart="@dimen/text_small_margin"
+                android:transitionName="@string/movie_description_transition_name" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

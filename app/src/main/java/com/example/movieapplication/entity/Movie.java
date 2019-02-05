@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class Movie implements Parcelable {
 
-    public static final int TYPE = 1;
     private String name;
     private String nameEng;
     private String description;
