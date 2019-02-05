@@ -28,7 +28,8 @@
             <TextView
                 android:id="@+id/movie_name_eng_text_view"
                 style="@style/TextView.Secondary"
-                android:layout_marginStart="@dimen/text_small_margin" />
+                android:layout_marginStart="@dimen/text_small_margin"
+                android:transitionName="@string/movie_name_eng_transition_name"/>
         </LinearLayout>
 
         <LinearLayout
@@ -40,7 +41,8 @@
                 style="@style/TextView.Secondary"
                 android:layout_marginStart="@dimen/text_small_margin"
                 android:ellipsize="end"
-                android:lines="1" />
+                android:lines="1"
+                android:transitionName="@string/movie_premiere_transition_name"/>
         </LinearLayout>
 
         <LinearLayout

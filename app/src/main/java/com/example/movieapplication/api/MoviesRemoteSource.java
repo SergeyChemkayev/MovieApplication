@@ -1,4 +1,4 @@
-package api;
+package com.example.movieapplication.api;
 
 import com.example.movieapplication.entity.MovieList;
 

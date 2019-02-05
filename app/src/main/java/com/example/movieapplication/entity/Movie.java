@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-public class Movie implements MovieElement, Parcelable {
+public class Movie implements Parcelable {
 
     public static final int TYPE = 1;
     private String name;
@@ -88,17 +88,7 @@ public class Movie implements MovieElement, Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeStringArray(new String[]{name, nameEng, premiere, description, image});
-    }
-
-    @Override
-    public int getType() {
-        return TYPE;
-    }
-
-    @Override
-    public String getId() {
-        return name;
+        parcel.writeStringArray(new String[]{name, nameEng, description, premiere, image});
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

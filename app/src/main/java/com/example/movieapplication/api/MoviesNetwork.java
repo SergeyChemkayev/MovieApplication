@@ -1,4 +1,4 @@
-package api;
+package com.example.movieapplication.api;
 
 import com.example.movieapplication.entity.MovieList;
 import com.google.gson.FieldNamingPolicy;
@@ -16,8 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MoviesNetwork implements MoviesRemoteSource {
 
-    public static volatile MoviesRemoteSource INSTANCE = null;
-    public static final int TIMEOUT_SECONDS = 20;
+    private static volatile MoviesRemoteSource INSTANCE = null;
+    private static final int TIMEOUT_SECONDS = 20;
     private static MoviesApi moviesApi;
 
     public static MoviesRemoteSource getInstance() {

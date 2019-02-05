@@ -1,4 +1,4 @@
-package com.example.movieapplication;
+package com.example.movieapplication.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,25 +12,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.movieapplication.R;
 import com.example.movieapplication.entity.Movie;
-import com.example.movieapplication.entity.MovieElement;
 import com.example.movieapplication.listeners.OnMovieClickListener;
-import com.example.movieapplication.vieholder.MovieElementViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MovieElementViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-    private List<MovieElement> movies;
+    private List<Movie> movies;
     private OnMovieClickListener onMovieClickListener;
 
     public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
         this.onMovieClickListener = onMovieClickListener;
     }
 
-    public void setMovies(List<MovieElement> movies){
-        if(movies==null){
+    public void setMovies(List<Movie> movies) {
+        if (movies == null) {
             movies = new ArrayList<>();
         }
         dispatchUpdates(movies);
@@ -38,30 +37,30 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieElementViewHolder> 
 
     @NonNull
     @Override
-    public MovieElementViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new MovieViewHolder(inflater.inflate(R.layout.movie_item, viewGroup, false),onMovieClickListener);
+        return new MovieViewHolder(inflater.inflate(R.layout.movie_item, viewGroup, false), onMovieClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieElementViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         holder.bind(movies.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return movies == null ? 0 : movies.size();
     }
 
-    private void dispatchUpdates(List<MovieElement> newList){
+    private void dispatchUpdates(List<Movie> newList) {
         MoviesDiffUtilCallback moviesDiffUtilCallback = new MoviesDiffUtilCallback(movies, newList);
         DiffUtil.DiffResult itemsDiffResult = DiffUtil.calculateDiff(moviesDiffUtilCallback);
         movies = newList;
         itemsDiffResult.dispatchUpdatesTo(this);
     }
 
-    public static class MovieViewHolder extends MovieElementViewHolder implements View.OnClickListener {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView nameView;
         private TextView nameEngView;
@@ -83,15 +82,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieElementViewHolder> 
             view.setOnClickListener(this);
         }
 
-        @Override
-        public void bind(MovieElement movieElement) {
-            movie = (Movie) movieElement;
-            nameView.setText(movie.getName());
-            nameEngView.setText(movie.getNameEng());
-            descriptionView.setText(movie.getDescription());
-            premiereDateView.setText(movie.getPremiere());
+        public void bind(Movie movie) {
+            this.movie = movie;
+            nameView.setText(this.movie.getName());
+            nameEngView.setText(this.movie.getNameEng());
+            descriptionView.setText(this.movie.getDescription());
+            premiereDateView.setText(this.movie.getPremiere());
             Glide.with(itemView.getContext())
-                    .load(movie.getImage())
+                    .load(this.movie.getImage())
                     .apply(new RequestOptions().centerCrop())
                     .into(movieCoverView);
         }
@@ -99,7 +97,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieElementViewHolder> 
         @Override
         public void onClick(View v) {
             if (onMovieClickListener != null) {
-                onMovieClickListener.onMovieClick(movie, movieCoverView, descriptionView);
+                onMovieClickListener.onMovieClick(movie, movieCoverView, descriptionView, nameEngView, premiereDateView);
             }
         }
     }
