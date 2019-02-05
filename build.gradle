@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    ext.glide_version = "4.8.0"
+    ext.retrofit_version = "2.5.0"
+
     repositories {
         google()
         jcenter()
