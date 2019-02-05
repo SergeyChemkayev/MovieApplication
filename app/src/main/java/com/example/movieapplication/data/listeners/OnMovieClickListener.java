@@ -1,4 +1,4 @@
-package com.example.movieapplication.listeners;
+package com.example.movieapplication.data.listeners;
 
 import android.view.View;
 

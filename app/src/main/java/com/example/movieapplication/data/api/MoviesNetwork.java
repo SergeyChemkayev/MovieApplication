@@ -1,4 +1,4 @@
-package com.example.movieapplication.api;
+package com.example.movieapplication.data.api;
 
 import com.example.movieapplication.entity.MovieList;
 import com.google.gson.FieldNamingPolicy;

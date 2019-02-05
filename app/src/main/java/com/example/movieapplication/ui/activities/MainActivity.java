@@ -10,11 +10,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.movieapplication.R;
-import com.example.movieapplication.api.MoviesNetwork;
-import com.example.movieapplication.api.MoviesRemoteSource;
+import com.example.movieapplication.data.api.MoviesNetwork;
+import com.example.movieapplication.data.api.MoviesRemoteSource;
 import com.example.movieapplication.entity.Movie;
 import com.example.movieapplication.entity.MovieList;
-import com.example.movieapplication.listeners.OnMovieClickListener;
+import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.ui.adapter.MoviesAdapter;
 
 import java.util.List;

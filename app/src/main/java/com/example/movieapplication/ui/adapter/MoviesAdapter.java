@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.movieapplication.R;
 import com.example.movieapplication.entity.Movie;
-import com.example.movieapplication.listeners.OnMovieClickListener;
+import com.example.movieapplication.data.listeners.OnMovieClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
