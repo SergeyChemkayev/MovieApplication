@@ -17,7 +17,9 @@ import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.entity.Movie;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +37,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         if (movies == null) {
             movies = new ArrayList<>();
         }
+        Set<Movie> moviesSet = new HashSet<>(movies);
+        movies.clear();
+        movies.addAll(moviesSet);
         dispatchUpdates(movies);
     }
 
