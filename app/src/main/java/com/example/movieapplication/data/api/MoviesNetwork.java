@@ -50,7 +50,7 @@ public class MoviesNetwork implements MoviesRemoteSource {
     }
 
     @Override
-    public Single<MovieList> getMovieListObservable() {
+    public Single<MovieList> getMovieListSingle() {
         return moviesApi.movies();
     }
 }

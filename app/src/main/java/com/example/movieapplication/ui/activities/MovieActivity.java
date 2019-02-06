@@ -15,9 +15,21 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.movieapplication.R;
 import com.example.movieapplication.entity.Movie;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieActivity extends AppCompatActivity {
 
-    private Toolbar movieNameToolbar;
+    @BindView(R.id.movie_name_toolbar)
+    Toolbar movieNameToolbar;
+    @BindView(R.id.movie_cover_toolbar_image_view)
+    ImageView movieCoverView;
+    @BindView(R.id.movie_description_text_view)
+    TextView movieDescriptionView;
+    @BindView(R.id.movie_name_eng_text_view)
+    TextView movieNameEngTextView;
+    @BindView(R.id.movie_premiere_date_text_view)
+    TextView moviePremiereTextView;
 
     public static void open(Context context, Movie movie, ActivityOptionsCompat options) {
         Intent intent = new Intent(context, MovieActivity.class);
@@ -29,6 +41,7 @@ public class MovieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
         initMovie();
         initToolbar();
     }
@@ -43,11 +56,6 @@ public class MovieActivity extends AppCompatActivity {
     }
 
     private void initMovie() {
-        ImageView movieCoverView = findViewById(R.id.movie_cover_toolbar_image_view);
-        TextView movieDescriptionView = findViewById(R.id.movie_description_text_view);
-        TextView movieNameEngTextView = findViewById(R.id.movie_name_eng_text_view);
-        TextView moviePremiereTextView = findViewById(R.id.movie_premiere_date_text_view);
-        movieNameToolbar = findViewById(R.id.movie_name_toolbar);
         Movie movie = getIntent().getParcelableExtra("movie");
         Glide.with(this)
                 .load(movie.getImage())

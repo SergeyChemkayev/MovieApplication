@@ -19,6 +19,9 @@ import com.example.movieapplication.entity.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
     private List<Movie> movies;
@@ -40,7 +43,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new MovieViewHolder(inflater.inflate(R.layout.movie_item, viewGroup, false), onMovieClickListener);
+        return new MovieViewHolder(inflater.inflate(R.layout.item_movie, viewGroup, false), onMovieClickListener);
     }
 
     @Override
@@ -62,20 +65,21 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView nameView;
-        private TextView nameEngView;
-        private TextView premiereDateView;
-        private ImageView movieCoverView;
+        @BindView(R.id.movie_name_text_view)
+        TextView nameView;
+        @BindView(R.id.movie_name_eng_text_view)
+        TextView nameEngView;
+        @BindView(R.id.movie_premiere_date_text_view)
+        TextView premiereDateView;
+        @BindView(R.id.movie_cover_image_view)
+        ImageView movieCoverView;
 
         private Movie movie;
         private OnMovieClickListener onMovieClickListener;
 
         public MovieViewHolder(View view, OnMovieClickListener onMovieClickListener) {
             super(view);
-            nameView = itemView.findViewById(R.id.movie_name_text_view);
-            nameEngView = itemView.findViewById(R.id.movie_name_eng_text_view);
-            premiereDateView = itemView.findViewById(R.id.movie_premiere_date_text_view);
-            movieCoverView = itemView.findViewById(R.id.movie_cover_image_view);
+            ButterKnife.bind(this, view);
             this.onMovieClickListener = onMovieClickListener;
             view.setOnClickListener(this);
         }

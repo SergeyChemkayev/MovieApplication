@@ -6,5 +6,5 @@ import io.reactivex.Single;
 
 public interface MoviesRemoteSource {
 
-    Single<MovieList> getMovieListObservable();
+    Single<MovieList> getMovieListSingle();
 }

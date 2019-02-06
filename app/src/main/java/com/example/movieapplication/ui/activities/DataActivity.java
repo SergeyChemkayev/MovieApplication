@@ -21,15 +21,20 @@ import com.example.movieapplication.ui.adapter.MoviesAdapter;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class DataActivity extends AppCompatActivity implements OnMovieClickListener {
 
     private MoviesAdapter adapter;
-    private RecyclerView recyclerView;
-    private View emptyView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.data_movies_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.data_empty_view)
+    View emptyView;
+    @BindView(R.id.data_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     private MoviesRemoteSource moviesRemoteSource = MoviesNetwork.getInstance();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private boolean isAbleToLoadMovies = true;
@@ -39,8 +44,8 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         movieCacheSource = new MovieCacheManager();
-        emptyView = findViewById(R.id.data_empty_view);
         adapter = new MoviesAdapter();
         adapter.setOnMovieClickListener(this);
         initRecyclerView();
@@ -55,7 +60,6 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
     }
 
     private void initRecyclerView() {
-        recyclerView = findViewById(R.id.data_movies_recycler_view);
         recyclerView.setAdapter(adapter);
     }
 
@@ -84,7 +88,7 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
     private void getMovies() {
         isAbleToLoadMovies = false;
         swipeRefreshLayout.setRefreshing(true);
-        compositeDisposable.add(moviesRemoteSource.getMovieListObservable()
+        compositeDisposable.add(moviesRemoteSource.getMovieListSingle()
                 .map(MovieList::getList)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onGetMoviesSuccess, this::onGetMoviesError));
