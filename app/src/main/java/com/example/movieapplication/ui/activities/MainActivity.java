@@ -14,9 +14,9 @@ import com.example.movieapplication.data.api.MovieCacheManager;
 import com.example.movieapplication.data.api.MovieCacheSource;
 import com.example.movieapplication.data.api.MoviesNetwork;
 import com.example.movieapplication.data.api.MoviesRemoteSource;
+import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.entity.Movie;
 import com.example.movieapplication.entity.MovieList;
-import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.ui.adapter.MoviesAdapter;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        movieCacheSource =new MovieCacheManager();
+        movieCacheSource = new MovieCacheManager();
         emptyView = findViewById(R.id.data_empty_view);
         adapter = new MoviesAdapter();
         adapter.setOnMovieClickListener(this);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
                 .subscribe(this::addMoviesFromCache));
     }
 
-    private void addMoviesFromCache(List<Movie> movies){
+    private void addMoviesFromCache(List<Movie> movies) {
         adapter.setMovies(movies);
         updateViewsVisibility();
     }

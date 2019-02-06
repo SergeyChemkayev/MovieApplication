@@ -13,7 +13,7 @@ public class Movie implements Parcelable {
     private String premiere;
     private String image;
 
-    public Movie(String name, String nameEng, String description, String premiere, String image){
+    public Movie(String name, String nameEng, String description, String premiere, String image) {
         this.name = name;
         this.nameEng = nameEng;
         this.description = description;

@@ -11,6 +11,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 
 public class MovieCacheManager implements MovieCacheSource {
+
     private RoomMoviesDao roomMoviesDao = MovieApplication.getInstance().getDatabase().moviesDao();
 
     @Override
@@ -25,7 +26,7 @@ public class MovieCacheManager implements MovieCacheSource {
 
     @Override
     public void removeMovies() {
-        new Thread(()->roomMoviesDao.removeAll()).start();
+        new Thread(() -> roomMoviesDao.removeAll()).start();
     }
 
     @Override
@@ -41,10 +42,10 @@ public class MovieCacheManager implements MovieCacheSource {
         return roomMovies;
     }
 
-    private List<Movie> parseRoomMoviesToMovies(List<RoomMovie> roomMovies){
+    private List<Movie> parseRoomMoviesToMovies(List<RoomMovie> roomMovies) {
         List<Movie> movies = new ArrayList<>();
-        for (RoomMovie roomMovie:roomMovies){
-            movies.add(new Movie(roomMovie.getName(),roomMovie.getNameEng(),roomMovie.getDescription(),roomMovie.getPremiere(),roomMovie.getCover()));
+        for (RoomMovie roomMovie : roomMovies) {
+            movies.add(new Movie(roomMovie.getName(), roomMovie.getNameEng(), roomMovie.getDescription(), roomMovie.getPremiere(), roomMovie.getCover()));
         }
         return movies;
     }

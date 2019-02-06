@@ -15,11 +15,11 @@ public class MovieApplication extends Application {
         moviesDatabase = Room.databaseBuilder(this, MoviesDatabase.class, "movies").build();
     }
 
-    public static MovieApplication getInstance(){
+    public static MovieApplication getInstance() {
         return INSTANCE;
     }
 
-    public MoviesDatabase getDatabase(){
+    public MoviesDatabase getDatabase() {
         return moviesDatabase;
     }
 }

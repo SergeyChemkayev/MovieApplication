@@ -25,7 +25,7 @@ public class RoomMovie {
     @ColumnInfo(name = "cover")
     private String cover;
 
-    public RoomMovie(String name, String nameEng, String description, String premiere, String cover){
+    public RoomMovie(String name, String nameEng, String description, String premiere, String cover) {
         this.name = name;
         this.nameEng = nameEng;
         this.description = description;

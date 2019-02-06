@@ -21,10 +21,10 @@ public abstract class RoomMoviesDao {
     public abstract void removeAll();
 
     @Insert
-    public abstract void insertAll(RoomMovie ... movies);
+    public abstract void insertAll(RoomMovie... movies);
 
     @Transaction
-    public void updateData(RoomMovie ... movies){
+    public void updateData(RoomMovie... movies) {
         removeAll();
         insertAll(movies);
     }
