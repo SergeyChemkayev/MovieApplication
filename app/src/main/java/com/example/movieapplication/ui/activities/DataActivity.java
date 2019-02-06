@@ -24,7 +24,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class MainActivity extends AppCompatActivity implements OnMovieClickListener {
+public class DataActivity extends AppCompatActivity implements OnMovieClickListener {
 
     private MoviesAdapter adapter;
     private RecyclerView recyclerView;
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
     public void onGetMoviesError(Throwable error) {
         hideLoading();
         isAbleToLoadMovies = true;
-        Toast.makeText(MainActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(DataActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
         getMoviesFromCache();
     }
 
