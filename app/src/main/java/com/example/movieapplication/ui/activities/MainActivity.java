@@ -91,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
                 .subscribe(this::onGetMoviesSuccess, this::onGetMoviesError));
     }
 
+    private void getMoviesFromCache(){
+        isAbleToLoadMovies = false;
+        swipeRefreshLayout.setRefreshing(true);
+        compositeDisposable.add(movieCacheSource.getMovies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::addMoviesFromCache));
+    }
+
     public void onGetMoviesSuccess(List<Movie> movies) {
         hideLoading();
         isAbleToLoadMovies = true;
@@ -102,9 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
         hideLoading();
         isAbleToLoadMovies = true;
         Toast.makeText(MainActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
-        compositeDisposable.add(movieCacheSource.getMovies()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::addMoviesFromCache));
+        getMoviesFromCache();
     }
 
     private void addMoviesFromCache(List<Movie> movies) {
