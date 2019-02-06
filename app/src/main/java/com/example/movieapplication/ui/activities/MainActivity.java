@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.movieapplication.R;
+import com.example.movieapplication.data.api.MovieCacheManager;
+import com.example.movieapplication.data.api.MovieCacheSource;
 import com.example.movieapplication.data.api.MoviesNetwork;
 import com.example.movieapplication.data.api.MoviesRemoteSource;
 import com.example.movieapplication.entity.Movie;
@@ -31,11 +33,13 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
     private MoviesRemoteSource moviesRemoteSource = MoviesNetwork.getInstance();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private boolean isAbleToLoadMovies = true;
+    private MovieCacheSource movieCacheSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        movieCacheSource =new MovieCacheManager();
         emptyView = findViewById(R.id.data_empty_view);
         adapter = new MoviesAdapter();
         adapter.setOnMovieClickListener(this);
@@ -98,15 +102,23 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
         hideLoading();
         isAbleToLoadMovies = true;
         Toast.makeText(MainActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
-        updateViewsVisibility();
+        compositeDisposable.add(movieCacheSource.getMovies()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::addMoviesFromCache));
     }
 
-    private void hideLoading() {
-        swipeRefreshLayout.setRefreshing(false);
+    private void addMoviesFromCache(List<Movie> movies){
+        adapter.setMovies(movies);
+        updateViewsVisibility();
     }
 
     private void addMovies(List<Movie> movies) {
         adapter.setMovies(movies);
+        movieCacheSource.updateMovies(movies);
+    }
+
+    private void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private void updateViewsVisibility() {
