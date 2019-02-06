@@ -69,16 +69,15 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
     }
 
     @Override
-    public void onMovieClick(Movie movie, View coverView, View descriptionView, View nameEngView, View premiereDateView) {
-        openMovieActivity(movie, coverView, descriptionView, nameEngView, premiereDateView);
+    public void onMovieClick(Movie movie, View coverView, View nameEngView, View premiereDateView) {
+        openMovieActivity(movie, coverView, nameEngView, premiereDateView);
     }
 
-    private void openMovieActivity(Movie movie, View coverView, View descriptionView, View nameEngView, View premiereDateView) {
+    private void openMovieActivity(Movie movie, View coverView, View nameEngView, View premiereDateView) {
         Pair<View, String> movieCoverPair = Pair.create(coverView, getText(R.string.movie_cover_transition_name).toString());
-        Pair<View, String> movieDescriptionPair = Pair.create(descriptionView, getText(R.string.movie_description_transition_name).toString());
         Pair<View, String> movieNameEngViewPair = Pair.create(nameEngView, getText(R.string.movie_name_eng_transition_name).toString());
         Pair<View, String> moviePremiereDateViewPair = Pair.create(premiereDateView, getText(R.string.movie_premiere_transition_name).toString());
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, movieCoverPair, movieDescriptionPair, movieNameEngViewPair, moviePremiereDateViewPair);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, movieCoverPair, movieNameEngViewPair, moviePremiereDateViewPair);
         MovieActivity.open(this, movie, options);
     }
 

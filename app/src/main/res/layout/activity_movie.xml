@@ -77,8 +77,7 @@
                 style="@style/TextView.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_small_margin"
-                android:transitionName="@string/movie_description_transition_name" />
+                android:layout_marginStart="@dimen/text_small_margin" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

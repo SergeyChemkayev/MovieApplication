@@ -64,7 +64,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         private TextView nameView;
         private TextView nameEngView;
-        private TextView descriptionView;
         private TextView premiereDateView;
         private ImageView movieCoverView;
 
@@ -75,7 +74,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             super(view);
             nameView = itemView.findViewById(R.id.movie_name_text_view);
             nameEngView = itemView.findViewById(R.id.movie_name_eng_text_view);
-            descriptionView = itemView.findViewById(R.id.movie_description_text_view);
             premiereDateView = itemView.findViewById(R.id.movie_premiere_date_text_view);
             movieCoverView = itemView.findViewById(R.id.movie_cover_image_view);
             this.onMovieClickListener = onMovieClickListener;
@@ -86,7 +84,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             this.movie = movie;
             nameView.setText(this.movie.getName());
             nameEngView.setText(this.movie.getNameEng());
-            descriptionView.setText(this.movie.getDescription());
             premiereDateView.setText(this.movie.getPremiere());
             Glide.with(itemView.getContext())
                     .load(this.movie.getImage())
@@ -97,7 +94,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         @Override
         public void onClick(View v) {
             if (onMovieClickListener != null) {
-                onMovieClickListener.onMovieClick(movie, movieCoverView, descriptionView, nameEngView, premiereDateView);
+                onMovieClickListener.onMovieClick(movie, movieCoverView, nameEngView, premiereDateView);
             }
         }
     }

@@ -2,7 +2,6 @@
     <string name="app_name">Movie Application</string>
     <string name="no_data_message">There is nothing to show :(</string>
     <string name="movie_cover_transition_name">movie_cover_transition_name</string>
-    <string name="movie_description_transition_name">movie_description_transition_name</string>
     <string name="movie_name_eng_transition_name">movie_name_eng_transition_name</string>
     <string name="movie_premiere_transition_name">movie_premiere_transition_name</string>
     <string name="error_message">something goes wrong</string>
