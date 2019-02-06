@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMovieClickListe
                 .subscribe(this::onGetMoviesSuccess, this::onGetMoviesError));
     }
 
-    private void getMoviesFromCache(){
+    private void getMoviesFromCache() {
         isAbleToLoadMovies = false;
         swipeRefreshLayout.setRefreshing(true);
         compositeDisposable.add(movieCacheSource.getMovies()
