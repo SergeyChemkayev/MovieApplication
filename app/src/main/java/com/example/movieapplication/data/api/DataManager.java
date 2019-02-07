@@ -3,25 +3,24 @@ package com.example.movieapplication.data.api;
 import com.example.movieapplication.data.MovieApplication;
 import com.example.movieapplication.data.RoomMoviesDao;
 import com.example.movieapplication.entity.Movie;
+import com.example.movieapplication.entity.MovieList;
 import com.example.movieapplication.entity.RoomMovie;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 
-public class MovieCacheManager implements MovieCacheSource {
+public class DataManager implements DataSource {
 
     private RoomMoviesDao roomMoviesDao = MovieApplication.getInstance().getDatabase().moviesDao();
+    private MoviesRemoteSource moviesRemoteSource = MoviesNetwork.getInstance();
 
     @Override
     public void putMovies(List<Movie> movies) {
         new Thread(() -> roomMoviesDao.insertAll(parseMoviesToRoomMovies(movies).toArray(new RoomMovie[0]))).start();
-    }
-
-    @Override
-    public Flowable<List<Movie>> getMovies() {
-        return roomMoviesDao.getAll().map(this::parseRoomMoviesToMovies);
     }
 
     @Override
@@ -31,7 +30,24 @@ public class MovieCacheManager implements MovieCacheSource {
 
     @Override
     public void updateMovies(List<Movie> movies) {
-        new Thread(() -> roomMoviesDao.updateData(parseMoviesToRoomMovies(movies).toArray(new RoomMovie[0]))).start();
+        roomMoviesDao.updateData(parseMoviesToRoomMovies(movies).toArray(new RoomMovie[0]));
+    }
+
+    @Override
+    public Observable<List<Movie>> loadMovies() {
+        return getMoviesFromApi().toObservable()
+                .doOnNext(this::updateMovies)
+                .onErrorResumeNext(getMoviesFromCache().toObservable());
+    }
+
+    private Single<List<Movie>> getMoviesFromApi() {
+        return moviesRemoteSource.getMovieListSingle()
+                .map(MovieList::getList);
+    }
+
+    private Flowable<List<Movie>> getMoviesFromCache() {
+        return roomMoviesDao.getAll()
+                .map(this::parseRoomMoviesToMovies);
     }
 
     private List<RoomMovie> parseMoviesToRoomMovies(List<Movie> movies) {

@@ -10,13 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.movieapplication.R;
-import com.example.movieapplication.data.api.MovieCacheManager;
-import com.example.movieapplication.data.api.MovieCacheSource;
-import com.example.movieapplication.data.api.MoviesNetwork;
-import com.example.movieapplication.data.api.MoviesRemoteSource;
+import com.example.movieapplication.data.api.DataManager;
+import com.example.movieapplication.data.api.DataSource;
 import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.entity.Movie;
-import com.example.movieapplication.entity.MovieList;
 import com.example.movieapplication.ui.adapter.MoviesAdapter;
 
 import java.util.List;
@@ -35,17 +32,16 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
     View emptyView;
     @BindView(R.id.data_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-    private MoviesRemoteSource moviesRemoteSource = MoviesNetwork.getInstance();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private boolean isAbleToLoadMovies = true;
-    private MovieCacheSource movieCacheSource;
+    private DataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        movieCacheSource = new MovieCacheManager();
+        dataSource = new DataManager();
         adapter = new MoviesAdapter();
         adapter.setOnMovieClickListener(this);
         initRecyclerView();
@@ -88,24 +84,16 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
     private void getMovies() {
         isAbleToLoadMovies = false;
         swipeRefreshLayout.setRefreshing(true);
-        compositeDisposable.add(moviesRemoteSource.getMovieListSingle()
-                .map(MovieList::getList)
+        compositeDisposable.add(dataSource.loadMovies()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onGetMoviesSuccess, this::onGetMoviesError));
     }
 
-    private void getMoviesFromCache() {
-        isAbleToLoadMovies = false;
-        swipeRefreshLayout.setRefreshing(true);
-        compositeDisposable.add(movieCacheSource.getMovies()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::addMoviesFromCache));
-    }
 
     public void onGetMoviesSuccess(List<Movie> movies) {
         hideLoading();
         isAbleToLoadMovies = true;
-        addMovies(movies);
+        setMovies(movies);
         updateViewsVisibility();
     }
 
@@ -113,17 +101,11 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
         hideLoading();
         isAbleToLoadMovies = true;
         Toast.makeText(DataActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
-        getMoviesFromCache();
-    }
-
-    private void addMoviesFromCache(List<Movie> movies) {
-        adapter.setMovies(movies);
         updateViewsVisibility();
     }
 
-    private void addMovies(List<Movie> movies) {
+    private void setMovies(List<Movie> movies) {
         adapter.setMovies(movies);
-        movieCacheSource.updateMovies(movies);
     }
 
     private void hideLoading() {

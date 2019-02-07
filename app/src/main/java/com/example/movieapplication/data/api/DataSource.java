@@ -4,13 +4,13 @@ import com.example.movieapplication.entity.Movie;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
-public interface MovieCacheSource {
+public interface DataSource {
 
     void putMovies(List<Movie> movies);
 
-    Flowable<List<Movie>> getMovies();
+    Observable<List<Movie>> loadMovies();
 
     void removeMovies();
 
