@@ -23,6 +23,7 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
@@ -68,7 +69,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         itemsDiffResult.dispatchUpdatesTo(this);
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MovieViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.movie_name_text_view)
         TextView nameView;
@@ -86,7 +87,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             super(view);
             ButterKnife.bind(this, view);
             this.onMovieClickListener = onMovieClickListener;
-            view.setOnClickListener(this);
         }
 
         public void bind(Movie movie) {
@@ -100,7 +100,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                     .into(movieCoverView);
         }
 
-        @Override
+        @OnClick
         public void onClick(View v) {
             if (onMovieClickListener != null) {
                 onMovieClickListener.onMovieClick(movie, movieCoverView, nameEngView, premiereDateView);
