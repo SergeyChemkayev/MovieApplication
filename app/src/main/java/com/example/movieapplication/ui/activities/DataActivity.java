@@ -41,7 +41,7 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        dataSource = new DataManager();
+        dataSource = DataManager.getInstance();
         adapter = new MoviesAdapter();
         adapter.setOnMovieClickListener(this);
         initRecyclerView();
