@@ -19,24 +19,9 @@ public class DataManager implements DataSource {
     private MoviesRemoteSource moviesRemoteSource = MoviesNetwork.getInstance();
 
     @Override
-    public void putMovies(List<Movie> movies) {
-        new Thread(() -> roomMoviesDao.insertAll(parseMoviesToRoomMovies(movies).toArray(new RoomMovie[0]))).start();
-    }
-
-    @Override
-    public void removeMovies() {
-        new Thread(() -> roomMoviesDao.removeAll()).start();
-    }
-
-    @Override
-    public void updateMovies(List<Movie> movies) {
-        roomMoviesDao.updateData(parseMoviesToRoomMovies(movies).toArray(new RoomMovie[0]));
-    }
-
-    @Override
     public Observable<List<Movie>> loadMovies() {
         return getMoviesFromApi().toObservable()
-                .doOnNext(this::updateMovies)
+                .doOnNext(this::updateMoviesCache)
                 .onErrorResumeNext(getMoviesFromCache().toObservable());
     }
 
@@ -48,6 +33,10 @@ public class DataManager implements DataSource {
     private Flowable<List<Movie>> getMoviesFromCache() {
         return roomMoviesDao.getAll()
                 .map(this::parseRoomMoviesToMovies);
+    }
+
+    private void updateMoviesCache(List<Movie> movies) {
+        roomMoviesDao.updateData(parseMoviesToRoomMovies(movies).toArray(new RoomMovie[0]));
     }
 
     private List<RoomMovie> parseMoviesToRoomMovies(List<Movie> movies) {
