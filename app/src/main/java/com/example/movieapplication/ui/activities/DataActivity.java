@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -12,18 +11,16 @@ import android.widget.Toast;
 import com.example.movieapplication.R;
 import com.example.movieapplication.data.api.DataManager;
 import com.example.movieapplication.data.api.DataSource;
-import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.entity.Movie;
 import com.example.movieapplication.ui.adapter.MoviesAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class DataActivity extends AppCompatActivity implements OnMovieClickListener {
+public class DataActivity extends BaseActivity {
 
     private MoviesAdapter adapter;
     @BindView(R.id.data_movies_recycler_view)
@@ -37,17 +34,21 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
     private DataSource dataSource;
 
     @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         dataSource = DataManager.getInstance();
         adapter = new MoviesAdapter();
-        adapter.setOnMovieClickListener(this);
+        adapter.setOnMovieClickListener(this::openMovieActivity);
         initRecyclerView();
         initSwipeRefreshLayout();
         getMovies();
     }
+
 
     @Override
     protected void onDestroy() {
@@ -66,11 +67,6 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
                 getMovies();
             }
         });
-    }
-
-    @Override
-    public void onMovieClick(Movie movie, View coverView, View nameEngView, View premiereDateView) {
-        openMovieActivity(movie, coverView, nameEngView, premiereDateView);
     }
 
     private void openMovieActivity(Movie movie, View coverView, View nameEngView, View premiereDateView) {
@@ -121,4 +117,5 @@ public class DataActivity extends AppCompatActivity implements OnMovieClickListe
             emptyView.setVisibility(View.GONE);
         }
     }
+
 }

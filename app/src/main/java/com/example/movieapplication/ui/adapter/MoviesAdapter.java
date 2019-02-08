@@ -30,14 +30,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private List<Movie> movies;
     private OnMovieClickListener onMovieClickListener;
 
+    public MoviesAdapter() {
+        movies = new ArrayList<>();
+    }
+
     public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
         this.onMovieClickListener = onMovieClickListener;
     }
 
     public void setMovies(List<Movie> movies) {
-        if (movies == null) {
-            movies = new ArrayList<>();
-        }
         Set<Movie> moviesSet = new HashSet<>(movies);
         movies.clear();
         movies.addAll(moviesSet);
@@ -49,7 +50,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        return new MovieViewHolder(inflater.inflate(R.layout.item_movie, viewGroup, false), onMovieClickListener);
+        return new MovieViewHolder(inflater.inflate(R.layout.item_movie, viewGroup, false));
     }
 
     @Override
@@ -69,7 +70,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         itemsDiffResult.dispatchUpdatesTo(this);
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
+      class MovieViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.movie_name_text_view)
         TextView nameView;
@@ -81,12 +82,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         ImageView movieCoverView;
 
         private Movie movie;
-        private OnMovieClickListener onMovieClickListener;
 
-        public MovieViewHolder(View view, OnMovieClickListener onMovieClickListener) {
+        public MovieViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            this.onMovieClickListener = onMovieClickListener;
         }
 
         public void bind(Movie movie) {

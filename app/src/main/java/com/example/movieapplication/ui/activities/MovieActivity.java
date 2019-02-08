@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,9 +15,8 @@ import com.example.movieapplication.R;
 import com.example.movieapplication.entity.Movie;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class MovieActivity extends AppCompatActivity {
+public class MovieActivity extends BaseActivity {
 
     @BindView(R.id.movie_name_toolbar)
     Toolbar movieNameToolbar;
@@ -38,10 +36,13 @@ public class MovieActivity extends AppCompatActivity {
     }
 
     @Override
+    protected int getLayoutId() {
+        return R.layout.activity_movie;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie);
-        ButterKnife.bind(this);
         initMovie();
         initToolbar();
     }

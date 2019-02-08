@@ -53,12 +53,15 @@ public class DataManager implements DataSource {
     }
 
     private Single<List<Movie>> getMoviesFromApi() {
+
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS);
         OkHttpClient okHttpClient = builder.build();
+
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setDateFormat("yyyy-MM-dd").create();
+
         return new Retrofit.Builder()
                 .baseUrl(MoviesApi.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
