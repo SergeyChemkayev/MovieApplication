@@ -19,6 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 public class DataActivity extends BaseActivity {
 
@@ -79,22 +80,21 @@ public class DataActivity extends BaseActivity {
 
     private void getMovies() {
         isAbleToLoadMovies = false;
-        swipeRefreshLayout.setRefreshing(true);
         compositeDisposable.add(dataSource.loadMovies()
+                .doOnSubscribe(this::showLoading)
+                .doAfterTerminate(this::hideLoading)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onGetMoviesSuccess, this::onGetMoviesError));
     }
 
 
     public void onGetMoviesSuccess(List<Movie> movies) {
-        hideLoading();
         isAbleToLoadMovies = true;
         setMovies(movies);
         updateViewsVisibility();
     }
 
     public void onGetMoviesError(Throwable error) {
-        hideLoading();
         isAbleToLoadMovies = true;
         Toast.makeText(DataActivity.this, R.string.error_message, Toast.LENGTH_SHORT).show();
         updateViewsVisibility();
@@ -102,6 +102,10 @@ public class DataActivity extends BaseActivity {
 
     private void setMovies(List<Movie> movies) {
         adapter.setMovies(movies);
+    }
+
+    private void showLoading(Disposable disposable) {
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     private void hideLoading() {
