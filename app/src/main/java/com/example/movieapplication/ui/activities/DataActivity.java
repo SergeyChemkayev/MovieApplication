@@ -25,20 +25,21 @@ import io.reactivex.disposables.Disposable;
 
 public class DataActivity extends BaseActivity {
 
-
     @BindView(R.id.data_movies_recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.data_empty_view)
     View emptyView;
     @BindView(R.id.data_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-    private boolean isAbleToLoadMovies = true;
+
     @Inject
     public DataSource dataSource;
     @Inject
     public Disposer disposer;
     @Inject
     public MoviesAdapter adapter;
+
+    private boolean isAbleToLoadMovies = true;
 
     @Override
     protected int getLayoutId() {
@@ -54,7 +55,6 @@ public class DataActivity extends BaseActivity {
         initRecyclerView();
         initSwipeRefreshLayout();
         getMovies();
-
     }
 
 
@@ -128,5 +128,4 @@ public class DataActivity extends BaseActivity {
             emptyView.setVisibility(View.GONE);
         }
     }
-
 }
