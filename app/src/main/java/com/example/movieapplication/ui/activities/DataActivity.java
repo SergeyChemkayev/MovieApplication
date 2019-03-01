@@ -9,30 +9,36 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.movieapplication.R;
-import com.example.movieapplication.data.api.DataManager;
+import com.example.movieapplication.data.Disposer;
+import com.example.movieapplication.data.MovieApplication;
 import com.example.movieapplication.data.api.DataSource;
 import com.example.movieapplication.entity.Movie;
 import com.example.movieapplication.ui.adapter.MoviesAdapter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 public class DataActivity extends BaseActivity {
 
-    private MoviesAdapter adapter;
+
     @BindView(R.id.data_movies_recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.data_empty_view)
     View emptyView;
     @BindView(R.id.data_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private boolean isAbleToLoadMovies = true;
-    private DataSource dataSource;
+    @Inject
+    public DataSource dataSource;
+    @Inject
+    public Disposer disposer;
+    @Inject
+    public MoviesAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -42,19 +48,20 @@ public class DataActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataSource = DataManager.getInstance();
-        adapter = new MoviesAdapter();
+        MovieApplication.getComponent().inject(this);
+        adapter.setDisposer(disposer);
         adapter.setOnMovieClickListener(this::openMovieActivity);
         initRecyclerView();
         initSwipeRefreshLayout();
         getMovies();
+
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        compositeDisposable.dispose();
+        disposer.dispose();
     }
 
     private void initRecyclerView() {
@@ -80,7 +87,7 @@ public class DataActivity extends BaseActivity {
 
     private void getMovies() {
         isAbleToLoadMovies = false;
-        compositeDisposable.add(dataSource.loadMovies()
+        disposer.add(dataSource.loadMovies()
                 .doOnSubscribe(this::showLoading)
                 .doAfterTerminate(this::hideLoading)
                 .observeOn(AndroidSchedulers.mainThread())

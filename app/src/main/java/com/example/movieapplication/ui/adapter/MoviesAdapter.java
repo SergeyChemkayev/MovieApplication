@@ -13,8 +13,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.movieapplication.R;
+import com.example.movieapplication.data.Disposer;
 import com.example.movieapplication.data.listeners.OnMovieClickListener;
 import com.example.movieapplication.entity.Movie;
+import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -23,12 +25,12 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
     private List<Movie> movies;
     private OnMovieClickListener onMovieClickListener;
+    private Disposer disposer;
 
     public MoviesAdapter() {
         movies = new ArrayList<>();
@@ -36,6 +38,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     public void setOnMovieClickListener(OnMovieClickListener onMovieClickListener) {
         this.onMovieClickListener = onMovieClickListener;
+    }
+
+    public void setDisposer(Disposer disposer) {
+        this.disposer = disposer;
     }
 
     public void setMovies(List<Movie> movies) {
@@ -70,7 +76,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         itemsDiffResult.dispatchUpdatesTo(this);
     }
 
-      class MovieViewHolder extends RecyclerView.ViewHolder {
+    class MovieViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.movie_name_text_view)
         TextView nameView;
@@ -86,6 +92,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         public MovieViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            disposer.add(RxView.clicks(view)
+                    .subscribe(o -> onMovieClickListener
+                            .onMovieClick(movie, movieCoverView, nameEngView, premiereDateView)));
         }
 
         public void bind(Movie movie) {
@@ -97,13 +106,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                     .load(this.movie.getImage())
                     .apply(new RequestOptions().centerCrop())
                     .into(movieCoverView);
-        }
-
-        @OnClick
-        public void onClick(View v) {
-            if (onMovieClickListener != null) {
-                onMovieClickListener.onMovieClick(movie, movieCoverView, nameEngView, premiereDateView);
-            }
         }
     }
 }

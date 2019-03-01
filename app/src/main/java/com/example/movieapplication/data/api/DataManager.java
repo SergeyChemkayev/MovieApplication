@@ -1,6 +1,6 @@
 package com.example.movieapplication.data.api;
 
-import com.example.movieapplication.data.MovieApplication;
+import com.example.movieapplication.data.MoviesDatabase;
 import com.example.movieapplication.data.RoomMoviesDao;
 import com.example.movieapplication.entity.Movie;
 import com.example.movieapplication.entity.MovieList;
@@ -24,25 +24,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DataManager implements DataSource {
 
-    private volatile static DataSource instance;
     private static final int TIMEOUT_SECONDS = 20;
+    private RoomMoviesDao roomMoviesDao;
 
-    private RoomMoviesDao roomMoviesDao = MovieApplication.getInstance().getDatabase().moviesDao();
-
-    private DataManager() {
-    }
-
-    public static DataSource getInstance() {
-        DataSource dataSource = instance;
-        if (null == dataSource) {
-            synchronized (DataManager.class) {
-                dataSource = instance;
-                if (null == dataSource) {
-                    instance = dataSource = new DataManager();
-                }
-            }
-        }
-        return dataSource;
+    public DataManager(MoviesDatabase moviesDatabase) {
+        roomMoviesDao = moviesDatabase.moviesDao();
     }
 
     @Override
