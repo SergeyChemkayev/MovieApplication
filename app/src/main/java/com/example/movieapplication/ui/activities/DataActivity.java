@@ -43,7 +43,7 @@ public class DataActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_data;
     }
 
     @Override

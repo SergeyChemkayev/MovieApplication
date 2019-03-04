@@ -70,6 +70,13 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_small_margin"
                     android:transitionName="@string/movie_premiere_transition_name" />
+
+                <ImageView
+                    android:id="@+id/movie_share_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_small_margin"
+                    app:srcCompat="@drawable/ic_share_black_24dp" />
             </LinearLayout>
 
             <TextView
